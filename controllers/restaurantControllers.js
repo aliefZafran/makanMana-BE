@@ -2,7 +2,7 @@ const overpassService = require("../services/overpassService");
 const restaurantMemory = require("../models/restaurantMemory");
 const scoringService = require("../services/scoringService");
 const tagMemory = require("../models/tagMemory");
-const shuffle = require('../services/shuffleRestaurant');
+const shuffle = require("../services/shuffleRestaurant");
 
 exports.fetchRestaurants = async (req, res) => {
   const { lat, lon, radius = 3000 } = req.body;
@@ -18,20 +18,22 @@ exports.fetchRestaurants = async (req, res) => {
       lon,
       radius
     );
-    const shuffledRestaurants = shuffle(restaurants)
+    const shuffledRestaurants = shuffle(restaurants);
 
     restaurantMemory.setRestaurants(shuffledRestaurants);
     return res.json({
-        success: true,
-        message:
-          restaurants.length === 0
-            ? 'No restaurants found nearby'
-            : 'Restaurants found',
-        data: shuffledRestaurants,
-      });
+      success: true,
+      message:
+        restaurants.length === 0
+          ? "No restaurants found nearby"
+          : "Restaurants found",
+      data: shuffledRestaurants,
+    });
   } catch (error) {
-    console.error("Overpass fetch failed:", error);
-    res.status(500).json({ error: "Error fetching from Overpass" });
+    console.error("Fetch Restaurants error:", err.message);
+    res
+      .status(502)
+      .json({ error: "Failed to fetch restaurants. Please try again later." });
   }
 };
 
@@ -65,12 +67,10 @@ exports.getRecommendations = (req, res) => {
   const restaurants = restaurantMemory.getRestaurants();
 
   if (!restaurants || restaurants.length === 0) {
-    return res
-      .status(404)
-      .json({
-        error:
-          "No restaurant data available. Please fetch nearby restaurants first.",
-      });
+    return res.status(404).json({
+      error:
+        "No restaurant data available. Please fetch nearby restaurants first.",
+    });
   }
 
   const scored = restaurants.map((r) => ({
@@ -84,20 +84,20 @@ exports.getRecommendations = (req, res) => {
 };
 
 exports.clearScore = (req, res) => {
-    tagMemory.clearPreferences();
-    const restaurants = restaurantMemory.getRestaurants();
-    
-    const clearedScore = restaurants.map(r => ({
-        id: r.id,
-        name: r.name,
-        score: scoringService.calculateScore(r)
-    }));
+  tagMemory.clearPreferences();
+  const restaurants = restaurantMemory.getRestaurants();
 
-    res.json({
-        message: "Score is cleared",
-        recommendations: clearedScore,
-    })
-}
+  const clearedScore = restaurants.map((r) => ({
+    id: r.id,
+    name: r.name,
+    score: scoringService.calculateScore(r),
+  }));
+
+  res.json({
+    message: "Score is cleared",
+    recommendations: clearedScore,
+  });
+};
 
 exports.getAllRestaurants = (req, res) => {
   res.json(restaurantMemory.getRestaurants());
