@@ -29,7 +29,7 @@ exports.fetchRestaurants = async (req, res) => {
           : "Restaurants found",
       data: shuffledRestaurants,
     });
-  } catch (error) {
+  } catch (err) {
     console.error("Fetch Restaurants error:", err.message);
     res
       .status(502)
