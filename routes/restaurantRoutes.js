@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/restaurantControllers');
 
+router.get('/test', controller.testApi);
 router.post('/restaurants', controller.fetchRestaurants);
 router.post('/swipe', controller.registerSwipe);
 router.get('/restaurants', controller.getAllRestaurants);

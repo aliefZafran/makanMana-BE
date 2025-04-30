@@ -4,6 +4,10 @@ const scoringService = require("../services/scoringService");
 const tagMemory = require("../models/tagMemory");
 const shuffle = require("../services/shuffleRestaurant");
 
+exports.testApi = async (req,res) => {
+  return res.send("MakanMana API is running");
+}
+
 exports.fetchRestaurants = async (req, res) => {
   const { lat, lon, radius = 3000 } = req.body;
 
