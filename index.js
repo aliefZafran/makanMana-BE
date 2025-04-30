@@ -7,12 +7,22 @@ const cors = require('cors')
 const restaurantRoutes = require('./routes/restaurantRoutes');
 
 const port = process.env.PORT;
-const cors_origin = process.env.CORS_ORIGIN;
+const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
 
-app.use(cors({
-    origin: cors_origin,
-  }
-));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow Postman or curl with no origin
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use('/api', restaurantRoutes);
 
