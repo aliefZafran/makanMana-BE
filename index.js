@@ -33,7 +33,7 @@ const placesApiLimiter = rateLimit({
 });
 
 // Apply rate limiting to all API routes
-// app.use('/api', apiLimiter);
+app.use('/api', apiLimiter);
 
 // Apply more restrictive rate limiting to Google Places API endpoints
 // app.use('/api/restaurants/fetch', placesApiLimiter);
@@ -59,6 +59,6 @@ app.get('/test', (req, res) => {
   res.send("MakanMana API is running");
 });
 
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, '127.0.0.1', () => {
   console.log(`Server running at http://localhost:${port}`);
 });
