@@ -11,7 +11,7 @@ router.get('/get-restaurants', controller.getAllRestaurants);
 router.get('/recommendations', controller.getRecommendations);
 router.post('/clearScore', controller.clearScore);
 
-router.get('/v2/fetch-mock', googleController.fetchMock)
+// router.get('/v2/fetch-mock', googleController.fetchMock)
 router.post('/v2/fetch-restaurants', googleController.fetchRestaurants)
 router.post('/v2/swipe', controller.registerSwipe);
 router.get('/v2/restaurants', googleController.getAllRestaurants);

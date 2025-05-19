@@ -2,7 +2,7 @@ const restaurantMemory = require("../models/restaurantMemory");
 const tagMemory = require("../models/tagMemory");
 const scoringService = require("../services/scoringService");
 const shuffle = require("../services/shuffleRestaurant");
-const mockData = require("../mock.json");
+// const mockData = require("../mock.json");
 const calculateDistance = require("../services/calculateDistance");
 const googlePlacesService = require("../services/googlePlacesService");
 const DEFAULT_PHOTO_URL = "https://picsum.photos/300/400";
@@ -88,35 +88,35 @@ exports.fetchRestaurants = async (req, res) => {
   }
 };
 
-exports.fetchMock = (req, res) => {
-  const places = mockData.places;
-  let currentId = 1;
-  console.log("fetching from mock");
+// exports.fetchMock = (req, res) => {
+//   const places = mockData.places;
+//   let currentId = 1;
+//   console.log("fetching from mock");
 
-  const transformed = places.map((place) => ({
-    id: currentId++,
-    name: place.displayName?.text,
-    address: place.formattedAddress,
-    rating: place.rating,
-    photo: place.photos?.[0]
-      ? constructPhotoUrl(place.photos[0].name)
-      : DEFAULT_PHOTO_URL,
-    tags: extractTagsFromGooglePlace(place),
-    linkToLocation: place.googleMapsUri,
-  }));
+//   const transformed = places.map((place) => ({
+//     id: currentId++,
+//     name: place.displayName?.text,
+//     address: place.formattedAddress,
+//     rating: place.rating,
+//     photo: place.photos?.[0]
+//       ? constructPhotoUrl(place.photos[0].name)
+//       : DEFAULT_PHOTO_URL,
+//     tags: extractTagsFromGooglePlace(place),
+//     linkToLocation: place.googleMapsUri,
+//   }));
 
-  const shuffledRestaurants = shuffle(transformed);
-  restaurantMemory.setRestaurants(shuffledRestaurants);
+//   const shuffledRestaurants = shuffle(transformed);
+//   restaurantMemory.setRestaurants(shuffledRestaurants);
 
-  return res.json({
-    success: true,
-    message:
-      shuffledRestaurants.length === 0
-        ? "No restaurants found in mock data"
-        : "Mock restaurants found",
-    data: shuffledRestaurants,
-  });
-};
+//   return res.json({
+//     success: true,
+//     message:
+//       shuffledRestaurants.length === 0
+//         ? "No restaurants found in mock data"
+//         : "Mock restaurants found",
+//     data: shuffledRestaurants,
+//   });
+// };
 
 exports.registerSwipe = (req, res) => {
   const { restaurantId, direction } = req.body;
