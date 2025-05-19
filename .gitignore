@@ -1,2 +1,4 @@
 conf.txt
 .env
+mock.json
+node_modules
