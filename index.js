@@ -12,7 +12,7 @@ const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
 
 // Rate limiting configuration
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 5 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
@@ -33,7 +33,7 @@ const placesApiLimiter = rateLimit({
 });
 
 // Apply rate limiting to all API routes
-// app.use('/api', apiLimiter);
+app.use('/api', apiLimiter);
 
 // Apply more restrictive rate limiting to Google Places API endpoints
 // app.use('/api/restaurants/fetch', placesApiLimiter);
