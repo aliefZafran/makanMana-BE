@@ -33,7 +33,7 @@ const placesApiLimiter = rateLimit({
 });
 
 // Apply rate limiting to all API routes
-app.use('/api', apiLimiter);
+// app.use('/api', apiLimiter);
 
 // Apply more restrictive rate limiting to Google Places API endpoints
 // app.use('/api/restaurants/fetch', placesApiLimiter);
